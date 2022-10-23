@@ -1,0 +1,24 @@
+{
+  "name": "profile-builder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ybazail3/Profile-Builder.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ybazail3/Profile-Builder/issues"
+  },
+  "homepage": "https://github.com/ybazail3/Profile-Builder#readme",
+  "dependencies": {
+    "inquirer": "^8.2.4",
+    "jest": "^29.2.1"
+  }
+}
