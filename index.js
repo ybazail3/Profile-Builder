@@ -13,17 +13,17 @@ const getManager = () => {
         {
             type: 'input',
             message: 'What is your team managers name?',
-            name: 'managername',
+            name: 'name',
         },
         {
             type: 'input',
             message: 'What is your employees ID?',
-            name: 'managerid',
+            name: 'id',
         },
         {
             type: 'input',
             message: 'Enter employees email address',
-            name: 'manageremail',
+            name: 'email',
         },
         {
             type: 'input',
@@ -56,7 +56,7 @@ const getTeam = () => {
                     getIntern();
                     break;
                 default:
-                    finishedTeam();
+                     finishedTeam();
             }
         })
 }
@@ -97,17 +97,17 @@ const getIntern = () => {
         {
             type: 'input',
             message: 'What is your interns name?',
-            name: 'name',
+            name: 'internname',
         },
         {
             type: 'input',
             message: 'Enter interns ID',
-            name: 'id',
+            name: 'internid',
         },
         {
             type: 'input',
             message: 'What is your interns email address?',
-            name: 'email',
+            name: 'internemail',
         },
         {
             type: 'input',
@@ -130,38 +130,66 @@ const finishedTeam = () => {
 
 
 const createHTML = ({
-manager,
-engineer,
-intern}) =>
+managername,
+managerid,
+manageremail,
+office,
+engineername,
+engineerid,
+engineeremail,
+github,
+internname,
+internid,
+internemail,
+school}) =>
 
     {
         return `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="./style.css">
-    <title>Document</title>
-</head>
-<body>
-    <header>My Team</header>
-    <div id="container"> 
-        <head1 class="name"> ${managername} </head1>
-        <div class="id"> ${managerid} </div>
-        <div class="email"> ${manageremail} </div>
-        <div class="office"> ${office} </div>
-    </div>
-</body>
-</html>`;
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+            <link href="./style.css">
+            <title>Team Profile</title>
+        </head>
+        <body>
+            <h1 class="d-flex justify-content-center bg-info p-3 mb-3">My Team</h1>
+            <div class="d-flex flex-row justify-content-around">
+            <div id="container" class= "d-flex flex-column m-1 bg-light rounded border border-secondary shadow"> 
+                <h6 class="bg-dark text-white p-2"> Name: ${managername}</h6>
+                <ul class="m-1"><i class="fa-solid fa-mug-hot"></i></ul>
+                <ul class="id p-2"> ID: ${managerid} </ul>
+                <ul class="email p-2"> Email: <a href= "mailto: ${manageremail} "></a>${manageremail}</ul>
+                <ul class="office p-2"> Office #: ${office} </ul>
+            </div>
+            <div id="container" class="d-flex flex-column m-1 bg-light rounded border border-secondary shadow"> 
+                <h6 class="bg-dark text-white p-2"> Name: ${engineername} </h6>
+                <ul class="m-1"><i class="fa-regular fa-glasses"></i></ul>
+                <ul class="id p-2"> ID: ${engineerid} </ul>
+                <ul class="email p-2"> Email: <a href= "mailto: ${engineeremail} "></a>${engineeremail} </ul>
+                <ul class="office p-2"> GitHub: <a href="https://github.com/${github}"></a> ${github}</ul>
+            </div>
+            <div id="container" class="d-flex flex-column m-1 bg-ulght rounded border border-secondary shadow"> 
+                <h6 class="bg-dark text-white p-2"> Name: ${internname} </h6>
+                <ul class="m-1"><i class="fa-solid fa-user-graduate"></i></ul>
+                <ul class="id p-2"> ID: ${internid} </ul>
+                <ul class="email p-2"> Email: <a href= "mailto: ${internemail} "></a>${internemail} </ul>
+                <ul class="office p-2"> University: ${school} </ul>
+            </div>
+            </div>
+        </body>
+        </html>
+  `;
     };
 
-    // function pushAnswers() {
-    //     getManager(),
-    //     getEngineer(),
-    //     getIntern()
-    //             .then((answers) => writeFile(index.html, createHTML(answers)))
-    //  }
-// <li class="list-group-item">Email: <a href="mailto:jared@fakemail.com">jared@fakemail.com</a></li>
-
+    function pushAnswers() {
+        getManager(),
+        getEngineer(),
+        getIntern()
+                .then((answers) => writeFile(index.html, createHTML(answers)))
+     }
 getManager();
+pushAnswers();
