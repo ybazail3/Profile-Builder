@@ -6,21 +6,11 @@ const Engineer = require('../lib/Engineer');
 describe('Engineer', () => {
     describe('testing to see if Engineers information will be logged correctly', () => {
         it('Needs to log engineers info', () => {
-            const engineer = new Engineer('Engingeers box', [
-                { name: 'Toadette', id: '54321', email: 'toadette14@outlook.com', github: 'toadettecoder' }
-            ]);
+            const engineer = new Engineer('Toadette', '54321', 'toadette14@outlook.com', 'toadettecoder')
+                expect(engineer.name).toBe('Toadette');
+                expect(engineer.id).toBe('54321');
+                expect(engineer.email).toBe('toadette14@outlook.com');
+                expect(engineer.github).toBe('toadettecoder');
         })
-        it('Should log Engineers name', () => {
-            expect(engineer.name).toBe('Toadette');
-        });
-        it('Should log engineers ID', () => {
-            expect(engineer.id).toBe('54321');
-        });
-        it('Should log engineers email', () => {
-            expect(engineer.email).toBe('toadette14@outlook.com')
-        });
-        it('Gives you an option to input GitHub username', () => {
-            expect(engineer.github).toBe('toadettecoder');
-        });
     });
 });

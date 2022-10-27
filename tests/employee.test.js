@@ -5,18 +5,10 @@ const Employee = require('../lib/Employee');
 describe('Employee', () => {
     describe('Testing to see in Employees information will be logged correctly', () => {
         it('Should have a first and last name', () => {
-            const employee = new Employee('Employees box', [
-                { name: 'Mario', id: '0987', email: 'mario@yahoo.com'}
-            ])
-            it('Needs to log employees name', () => {
+            const employee = new Employee('Mario', '0987','mario@yahoo.com');
                 expect(employee.name).toBe('Mario');
-            });
-            it('Needs to log employee ID', () => {
-                expect(employee.id).toBe('0987')
-            });
-            it('Needs to log employee email', () => {
-                expect(employee.email).toBe('mario@yahoo.com')
-            });
-        })
-    })
+                expect(employee.id).toBe('0987');
+                expect(employee.email).toBe('mario@yahoo.com');
+        });
+    });
 });

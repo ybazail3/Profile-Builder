@@ -1,29 +1,29 @@
 const inquirer = require('inquirer');
+const fs = require('fs');
 
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
-const Intern = require('./lib/Intern')
+const Intern = require('./lib/Intern');
 
-const team = [];
-
-const { writeFile } = require('fs').promises;
+let engineers = [];
+let interns = [];
 
 const getManager = () => {
     return inquirer.prompt([
         {
             type: 'input',
             message: 'What is your team managers name?',
-            name: 'name',
+            name: 'managerName',
         },
         {
             type: 'input',
             message: 'What is your employees ID?',
-            name: 'id',
+            name: 'managerId',
         },
         {
             type: 'input',
             message: 'Enter employees email address',
-            name: 'email',
+            name: 'managerEmail',
         },
         {
             type: 'input',
@@ -32,9 +32,7 @@ const getManager = () => {
         },
     ]).then(answers => {
         console.log(answers);
-        const manager = new Manager(answers.name, answers.id, answers.email, answers.officeNumber)
-        // TODO: add team here
-        team.push(manager);
+        const manager = new Manager(answers.managerName, answers.managerId, answers.managerEmail, answers.office);
         getTeam();
     })
 };
@@ -47,8 +45,8 @@ const getTeam = () => {
             name: 'type',
             choices: ['Add Engineer', 'Add Intern', 'Finished building my team!'],
         }])
-        .then(getTeam => {
-            switch (getTeam) {
+        .then(answers => {
+            switch (answers.type) {
                 case 'Add Engineer':
                     getEngineer();
                     break;
@@ -56,27 +54,28 @@ const getTeam = () => {
                     getIntern();
                     break;
                 default:
-                     finishedTeam();
+                    finishedTeam();
             }
         })
 }
 
 const getEngineer = () => {
+    console.log('Adding Engineer!')
     return inquirer.prompt([
         {
             type: 'input',
             message: 'Enter Engineers name',
-            name: 'name',
+            name: 'engineerName',
         },
         {
             type: 'input',
             message: 'Enter Engineers ID',
-            name: 'id',
+            name: 'engineerId',
         },
         {
             type: 'input',
             message: 'Enter Engineers email address',
-            name: 'email',
+            name: 'engineerEmail',
         },
         {
             type: 'input',
@@ -85,9 +84,8 @@ const getEngineer = () => {
         },
     ]).then(answers => {
         console.log(answers);
-        const engineer = new Engineer(answers.name, answers.id, answers.email, answers.github)
-        // TODO: add team here
-        team.push(engineer);
+        const engineer = new Engineer(answers.engineerName, answers.engineerId, answers.engineerEmail, answers.github);
+        engineers.push(engineer)
         getTeam();
     })
 };
@@ -97,7 +95,7 @@ const getIntern = () => {
         {
             type: 'input',
             message: 'What is your interns name?',
-            name: 'internname',
+            name: 'internName',
         },
         {
             type: 'input',
@@ -107,7 +105,7 @@ const getIntern = () => {
         {
             type: 'input',
             message: 'What is your interns email address?',
-            name: 'internemail',
+            name: 'internEmail',
         },
         {
             type: 'input',
@@ -116,35 +114,22 @@ const getIntern = () => {
         },
     ]).then(answers => {
         console.log(answers);
-        const intern = new Intern(answers.name, answers.id, answers.email, answers.school)
-        // TODO: add team here
-        team.push(intern);
+        const intern = new Intern(answers.internName, answers.internId, answers.internEmail, answers.school);
+        interns.push(intern)
         getTeam();
     })
 };
 
 const finishedTeam = () => {
     console.log('Finished building team')
-   // createHTML();
+     const html = createHTML();
+     fs.writeFile('index.html', html, (err) =>
+     err ? console.log(err) : console.log('Created index.html for team!')
+     );
 }
 
-
-const createHTML = ({
-managername,
-managerid,
-manageremail,
-office,
-engineername,
-engineerid,
-engineeremail,
-github,
-internname,
-internid,
-internemail,
-school}) =>
-
-    {
-        return `<!DOCTYPE html>
+const createHTML = () => {
+    return `<!DOCTYPE html>
         <html lang="en">
         <head>
             <meta charset="UTF-8">
@@ -159,37 +144,32 @@ school}) =>
             <h1 class="d-flex justify-content-center bg-info p-3 mb-3">My Team</h1>
             <div class="d-flex flex-row justify-content-around">
             <div id="container" class= "d-flex flex-column m-1 bg-light rounded border border-secondary shadow"> 
-                <h6 class="bg-dark text-white p-2"> Name: ${managername}</h6>
+                <h6 class="bg-dark text-white p-2"> Name: ${Manager.name}</h6>
                 <ul class="m-1"><i class="fa-solid fa-mug-hot"></i></ul>
-                <ul class="id p-2"> ID: ${managerid} </ul>
-                <ul class="email p-2"> Email: <a href= "mailto: ${manageremail} "></a>${manageremail}</ul>
-                <ul class="office p-2"> Office #: ${office} </ul>
+                <ul class="id p-2"> ID: ${Manager.Id} </ul>
+                <ul class="email p-2"> Email: <a href= "mailto: ${Manager.email} "></a>${Manager.email}</ul>
+                <ul class="office p-2"> Office #: ${Manager.office} </ul>
             </div>
             <div id="container" class="d-flex flex-column m-1 bg-light rounded border border-secondary shadow"> 
-                <h6 class="bg-dark text-white p-2"> Name: ${engineername} </h6>
-                <ul class="m-1"><i class="fa-regular fa-glasses"></i></ul>
-                <ul class="id p-2"> ID: ${engineerid} </ul>
-                <ul class="email p-2"> Email: <a href= "mailto: ${engineeremail} "></a>${engineeremail} </ul>
-                <ul class="office p-2"> GitHub: <a href="https://github.com/${github}"></a> ${github}</ul>
-            </div>
-            <div id="container" class="d-flex flex-column m-1 bg-ulght rounded border border-secondary shadow"> 
-                <h6 class="bg-dark text-white p-2"> Name: ${internname} </h6>
-                <ul class="m-1"><i class="fa-solid fa-user-graduate"></i></ul>
-                <ul class="id p-2"> ID: ${internid} </ul>
-                <ul class="email p-2"> Email: <a href= "mailto: ${internemail} "></a>${internemail} </ul>
-                <ul class="office p-2"> University: ${school} </ul>
-            </div>
+        <h6 class="bg-dark text-white p-2"> Name: ${Engineer.name} </h6>
+        <ul class="m-1"><i class="fa-regular fa-glasses"></i></ul>
+        <ul class="id p-2"> ID: ${Engineer.Id} </ul>
+        <ul class="email p-2"> Email: <a href= "mailto: ${Engineer.email} "></a>${Engineer.email} </ul>
+        <ul class="office p-2"> GitHub: <a href="https://github.com/${Engineer.github}"></a> ${Engineer.github}</ul>
+    </div>
+    <div id="container" class="d-flex flex-column m-1 bg-ulght rounded border border-secondary shadow"> 
+        <h6 class="bg-dark text-white p-2"> Name: ${Intern.name} </h6>
+        <ul class="m-1"><i class="fa-solid fa-user-graduate"></i></ul>
+        <ul class="id p-2"> ID: ${Intern.Id} </ul>
+        <ul class="email p-2"> Email: <a href= "mailto: ${Intern.email} "></a>${Intern.email} </ul>
+        <ul class="office p-2"> University: ${Intern.school} </ul>
+    </div>
             </div>
         </body>
         </html>
   `;
-    };
+};
 
-    function pushAnswers() {
-        getManager(),
-        getEngineer(),
-        getIntern()
-                .then((answers) => writeFile(index.html, createHTML(answers)))
-     }
 getManager();
-pushAnswers();
+
+
